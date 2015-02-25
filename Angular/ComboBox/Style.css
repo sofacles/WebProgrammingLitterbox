@@ -1,0 +1,7 @@
+﻿ul {
+    list-style-type: none;
+}
+
+input[type=text]::-ms-clear {
+    display: none;
+}

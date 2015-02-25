@@ -1,0 +1,15 @@
+﻿<div>
+	<form>
+		<h3>Local model (chosenPreset): {{cfg.chosenPreset}}</h3> <!--*you can use scope vars that are defined on the isolate scope object -->
+		<h3>The property we tell the parent controller about(chosenValue): {{cfg.chosenValue}}</h3>' <!-- and also on the controller for the directive. -->
+		
+		<select ng-if="!cfg.inCustomMode" ng-model="cfg.chosenPreset" >
+			<option  ng-repeat="fruit in cfg.myPresets">{{fruit}}</option>
+		</select>
+		<div ng-if="cfg.inCustomMode">
+			<input type="text" ng-model="cfg.chosenPreset"  /> 
+			<input type="button" value="ok" ng-click="setNewCustomValue(cfg.chosenPreset)"/>
+			<input type="button" value="cancel" ng-click="cancel()" />
+		</div>
+	</form>				
+</div>

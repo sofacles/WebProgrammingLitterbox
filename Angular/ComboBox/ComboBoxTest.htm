@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html xmlns:ng="http://angularjs.org">
+<head>
+    <title>Test ComboBox</title>
+	<!-- I want this to work in ie8, so I can only use angular 1.2.x -->
+	<script src="../../scripts/lib/Angular1.2.17.js" type="text/javascript"></script>
+	<script src="../../scripts/lib/JQuery1.10.0.js" type="text/javascript"></script>
+	<script src="app.js" type="text/javascript"></script>
+	<link href="Style.css" rel="stylesheet" type="text/css" />
+</head>
+	<body>
+		<div ng-app="comboBoxTest">
+			<div data-ng-controller="someController">
+				<span>parent controller's selectedFruit is {{selectedFruit}}</span>
+				<combo-box selected-value="selectedFruit" on-updated="onUpdated(fruit)" presets="fruits"><combo-box>
+			</div>
+		</div>
+    
+	</body>
+</html>
