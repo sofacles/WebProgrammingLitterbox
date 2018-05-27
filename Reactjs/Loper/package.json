@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "node_modules/.bin/webpack -d --watch",
-    "build" : "webpack -p"
+    "dev": "node_modules/.bin/webpack --mode development --watch",
+    "build": "webpack -p"
   },
   "dependencies": {
     "babel-loader": "^7.1.4",
@@ -22,6 +22,7 @@
     "webpack": "^4.8.3"
   },
   "devDependencies": {
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack-cli": "^2.1.4"
   }
 }
