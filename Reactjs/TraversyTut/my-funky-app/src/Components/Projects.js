@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import ProjectItem from './ProjectItem';
+import PropTypes from 'prop-types';
+
+//OK, I guess this is a webpack thing.  If I try to do something like PropTypes.checkPropType or even React.createElement
+//it doesn't work.  But if you assign it to a variable, then you can access that 
+var propTypes = PropTypes;
 
 class Projects extends Component {
     deleteProject(id) {
@@ -26,4 +31,9 @@ class Projects extends Component {
   }
 }
 
+
+Projects.propTypes = {
+    projects: propTypes.array,
+    onDelete: propTypes.func
+};
 export default Projects;
