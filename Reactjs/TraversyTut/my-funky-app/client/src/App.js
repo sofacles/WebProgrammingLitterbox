@@ -9,34 +9,28 @@ class App extends Component {
     constructor() {
         super();
 
-        this.state = {projects: []};
+        this.state = {
+            projects: [],
+            response: ''
+        };
     }
 
     componentWillMount() {
-        this.setState({
-            projects: [
-                {
-                    id: uuid.v4(),
-                    title: "balance a tree",
-                    category: "data structures and algorithms"
-                },
-                {
-                    id: uuid.v4(),
-                    title: "mount sash rod",
-                    category: "home maintenance"
-                },
-                {
-                    id: uuid.v4(),
-                    title: "write a sorting algorithm",
-                    category: "data structures and algorithms"
-                },
-                {
-                    id: uuid.v4(),
-                    title: "learn ES6",
-                    category: "porfessional development"
-                }
-            ]})
+        console.log("inside component will Mount");
+        this.callApi()
+            .then(res => this.setState({ projects: res.projects }))
+            .catch(err => console.log(err));
     }
+
+    callApi = async () => {
+        const response = await fetch('/api/hello');
+        const body = await response.json();
+
+        if (response.status !== 200) throw Error(body.message);
+
+        return body;
+    };
+
 
     handleAddProject(project) {
         console.log(project);
