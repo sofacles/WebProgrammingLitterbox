@@ -8,6 +8,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "async": "^2.6.1",
     "express": "^4.16.2",
     "nodemon": "^1.17.5",
     "redis": "^2.8.0",

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Projects from './Components/Projects';
 import AddProject from './Components/AddProject';
-import uuid from 'uuid'
 import './App.css';
 
 class App extends Component {
@@ -10,25 +9,32 @@ class App extends Component {
         super();
 
         this.state = {
-            projects: [],
-            response: ''
+            projects: []
         };
     }
 
     componentWillMount() {
-        console.log("inside component will Mount");
         this.callApi()
-            .then(res => this.setState({ projects: res.projects }))
+            .then(res => {
+                var theProjects = [];
+                for (var i = 0; i < res.length; i++) {
+                    theProjects.push({
+                        id: res[i].id,
+                        title: res[i].data.title,
+                        category: res[i].data.category
+                    });
+                }
+                this.setState({ projects: theProjects })
+            })
             .catch(err => console.log(err));
     }
 
     callApi = async () => {
-        const response = await fetch('/api/hello');
+        const response = await fetch('/api/projects');
         const body = await response.json();
-
         if (response.status !== 200) throw Error(body.message);
 
-        return body;
+        return body.data;
     };
 
 
@@ -48,7 +54,6 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                My App
                 <Projects projects={this.state.projects} onDelete={this.handleDeleteProject.bind(this)} />
                 <AddProject addProject={this.handleAddProject.bind(this)}/>
             </div>
