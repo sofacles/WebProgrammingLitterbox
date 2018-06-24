@@ -21,20 +21,34 @@ class AddProject extends Component {
         if (this.refs.title.value === '') {
             alert("project needs a title");
         } else {
-            this.setState({
-                newProject: {
-                    id: uuid.v4(),
-                    title: this.refs.title.value,
-                    category: this.refs.category.value
-                }
-            }, function () {
-                //console.log(this.state.newProject);
-                this.props.addProject(this.state.newProject);
-                });
+            this.callApi()
+                .then(res => {
+                    console.log(res);
+                    console.log("TODO: after pushing the project object to redis, add it to our state");
+                    //this.setState({
+                    //    newProject: {
+                    //        id: uuid.v4(),
+                    //        title: this.refs.title.value,
+                    //        category: this.refs.category.value
+                    //    }
+                    //}, function () {
+                    //    //console.log(this.state.newProject);
+                    //    this.props.addProject(this.state.newProject);
+                    //});
+                })
+                .catch(err => console.log(err));
         }
         e.preventDefault();
     }
 
+    callApi = async () => {
+        const response = await fetch('/api/addproject');
+        const body = await response.json();
+
+        if (response.status !== 200) throw Error(body.message);
+
+        return body;
+    };
     render() {
         let categoryOptions = this.props.categories.map(category => {
             return <option value={category} key={category}>{category}</option>
