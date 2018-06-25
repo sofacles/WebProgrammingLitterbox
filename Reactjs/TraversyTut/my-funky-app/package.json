@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "body-parser": "^1.18.3",
     "express": "^4.16.2",
     "nodemon": "^1.17.5",
     "redis": "^2.8.0",

@@ -21,10 +21,11 @@ class AddProject extends Component {
         if (this.refs.title.value === '') {
             alert("project needs a title");
         } else {
-            this.callApi()
-                .then(res => {
+            var h = this.callApi({
+                title: this.refs.title.value,
+                category: this.refs.category.value
+            }).then(res => {
                     console.log(res);
-                    console.log("TODO: after pushing the project object to redis, add it to our state");
                     //this.setState({
                     //    newProject: {
                     //        id: uuid.v4(),
@@ -41,14 +42,19 @@ class AddProject extends Component {
         e.preventDefault();
     }
 
-    callApi = async () => {
-        const response = await fetch('/api/addproject');
-        const body = await response.json();
-
-        if (response.status !== 200) throw Error(body.message);
-
-        return body;
+    callApi = async (proj) => {
+        const rawResponse = await fetch('/api/addproject', {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: proj.title, category: proj.category })
+        });
+        const content = await rawResponse.json();
+        return content;
     };
+
     render() {
         let categoryOptions = this.props.categories.map(category => {
             return <option value={category} key={category}>{category}</option>
