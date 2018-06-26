@@ -14,7 +14,7 @@ class App extends Component {
     }
 
     componentWillMount() {
-        this.callApi()
+        this.getProjectsFromServer()
             .then(res => {
                 var theProjects = [];
                 for (var i = 0; i < res.length; i++) {
@@ -29,11 +29,12 @@ class App extends Component {
             .catch(err => console.log(err));
     }
 
-    callApi = async () => {
+    getProjectsFromServer = async () => {
         const response = await fetch('/api/projects');
         const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-
+        if (response.status !== 200) {
+            throw Error(body.message);
+        }
         return body.data;
     };
 
@@ -45,12 +46,31 @@ class App extends Component {
         this.setState(project);
     }
 
+    sendDeleteRequestToServer = async (id) => {
+        const rawResponse = await fetch('/api/project', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "id": id })
+        });
+        const content = await rawResponse.json();
+        return content;
+    };
+
     handleDeleteProject(id) {
-        let projects = this.state.projects;
-        let index = projects.findIndex(p => { p.id === id });
-        projects.splice(index, 1);
-        this.setState({ projects: projects });
+        this.sendDeleteRequestToServer(id)
+            .then(res => {
+                if (res.status === 1) {
+                    let projects = this.state.projects;
+                    let index = projects.findIndex(p => { return p.id === id });
+                    projects.splice(index, 1);
+                    this.setState({ projects: projects });
+                }
+            });
     }
+
     render() {
         return (
             <div className="App">

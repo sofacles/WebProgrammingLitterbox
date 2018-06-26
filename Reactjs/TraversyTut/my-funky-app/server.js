@@ -46,20 +46,43 @@ app.get('/api/projects', (req, res) => {
     });
 });
 
-//TODO: make this a PUT and read the new project out of the body and post that object to redis
-app.put("/api/addproject", (req, res) => {
+app.post("/api/project", (req, res) => {
     console.log("****Inside addProject handler. : ");
     console.log(req.body);
     var client = redis.createClient();
 
     client.on('connect', function () {
         console.log('connected to redis server');
-        client.hmset(uuid.v4(), req.body, function (err, reply) {
+        var id = uuid.v4();
+        client.hmset(id, req.body, function (err, reply) {
             console.log("Err: " + err);
             console.log("reply: " + reply);
-            res.send({ status: reply });
+            res.send({
+                status: reply,
+                newProject: {
+                    id: id,
+                    title: req.body.title,
+                    category: req.body.category
+                }
+            });
         });
         
+    });
+});
+
+app.delete("/api/project", (req, res) => {
+    var client = redis.createClient();
+
+    client.on('connect', function () {
+        console.log('connected to redis server');
+        var id = req.body.id;
+        client.del(id, function (err, reply) {
+            console.log("Err: " + err);
+            console.log("reply: " + reply);
+            res.send({
+                status: reply
+            });
+        });
     });
 });
 
