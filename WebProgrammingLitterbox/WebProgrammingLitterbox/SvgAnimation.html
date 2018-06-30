@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Content/SvgAnimation.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>svg animation</h1>
+
+    <div>
+        <div id="test"></div><br />
+        <svg class="cir" version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="100" onmouseover="shrink(evt);" />
+        </svg>
+    </div>
+    <script>
+        var testDiv = document.getElementById("test");
+        var start = null;
+        var target = null; //todo, how am I going to have an event for every dot?
+        var change = 0;
+        var maxColor = 255;
+
+        //I want this to take 1 sec, so figure out what blue it would be
+        function step(timestamp) {
+            start = start || timestamp;
+            var progress = timestamp - start;
+            
+            //want to go from 256 to zero in 1000 msec, well 1024, to make the math convenient.
+            change += (Math.min(progress / 4, 1));
+            var blu = Math.floor(maxColor - change);
+            var red = maxColor - blu;
+            var status = document.createElement("p");
+            status.innerText = "prg: " + progress + '| chg:' + change + "blu: "+ blu ;
+            testDiv.appendChild(status);
+            target.style.fill = '#' + red.toString(16) + '00' + blu.toString(16);
+            if (change <= maxColor) {
+               
+                window.requestAnimationFrame(step);
+            }
+            else {
+                console.log("Not requesting any more animation frames");
+            }
+        }
+
+        function shrink(evt) {
+            target = evt.target; 
+            window.requestAnimationFrame(step);
+        }
+
+    </script>
+</body>
+</html>
