@@ -42,8 +42,8 @@ class Bubble extends Component {
     }
   render() {
     return (
-        <svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="100" onMouseOver={this.mouseover.bind(this)} style={{ fill: this.state.color}} />
+        <svg version="1.1" width="48" height="40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="20" onMouseOver={this.mouseover.bind(this)} style={{ fill: this.state.color}} />
         </svg>
     );
   }
