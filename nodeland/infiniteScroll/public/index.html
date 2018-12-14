@@ -9,22 +9,58 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="stylesheets/style.css">
     </head>
     <body>
-        <div>Hll=0!</div>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        
+        <ul id="word-container"></ul>
         <script>
-            function getItems(startIndex, count){
-                fetch('/data')
-                .then(response => response.json())
-                .then(json => console.log(json))
-            }
+            (function wordLIstViewer(){
+                var 
+                wordList = document.getElementById("word-container"),
+                state = {
+                   currentPage: 0,
+                   lastPage: 3
+                };
+                
 
-            getItems(0,10);
+                function getItems(index){
+                    fetch('/data?index=' + index)
+                    .then(response => response.json())
+                    .then(json => {
+                        var words = JSON.parse(json);
+                        words.map(function(word){
+                            var listItem = document.createElement("li");
+                            var span = document.createElement("span");
+                            span.innerHTML = word.name;
+                            listItem.appendChild(span);
+                            wordList.appendChild(listItem);
+                        })
+                    })
+                }
+
+                function handleScroll(event){
+                    var 
+                    wordlistHeight = wordList.offsetHeight,
+                    heightLowerInvisibleList = wordlistHeight - window.innerHeight - window.scrollY,
+                    minHeightBeforeFetching = 300;
+
+                    if(state.currentPage < state.lastPage &&  heightLowerInvisibleList < minHeightBeforeFetching){
+                        state.currentPage++;
+                        getItems(state.currentPage);
+                    }
+                }
+
+                getItems(state.currentPage);
+
+                window.addEventListener("scroll", handleScroll);
+            })();
+
+
+           
+            
         </script>
     </body>
 </html>
