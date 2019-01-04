@@ -20,9 +20,10 @@
             (function wordLIstViewer(){
                 var 
                 wordList = document.getElementById("word-container"),
+                maxItemsToShow = 30,
                 state = {
                    currentPage: 0,
-                   lastPage: 3
+                   lastPage: 4
                 };
                 
 
@@ -50,6 +51,11 @@
                     if(state.currentPage < state.lastPage &&  heightLowerInvisibleList < minHeightBeforeFetching){
                         state.currentPage++;
                         getItems(state.currentPage);
+
+                        while(wordList.childNodes.length > maxItemsToShow){
+                            var firstItem = wordList.childNodes[0];
+                            wordList.removeChild(firstItem);
+                        }
                     }
                 }
 
