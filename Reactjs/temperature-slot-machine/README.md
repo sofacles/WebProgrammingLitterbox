@@ -1,7 +1,24 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 And then I added a server side end point by copying the code at https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0
-By Esau Silva, who I should totally follow on twitter
+By Esau Silva, who I should totally follow on twitter.
+
+After that, I learned that vs code has a native node debugger in it.  The way you see it is clicking on that left-side toolbar icon of a bug with a circle around it and then click on the gear button.  Mine had a red dot next to it indicating that I had never edited the debugging config file: launch.json.   When I clicked on it, I got a config object that sort of looked like it would debug node on the server side, but since I am running with Nodemon there's really no process for VS to start.  Instead, I followed
+https://github.com/Microsoft/vscode-recipes/tree/master/nodemon and now have this in my launch.json:
+
+"configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Node: Nodemon",
+            "processId": "${command:PickProcess}",
+            "restart": true,
+            "protocol": "inspector"
+        }
+    ]
+
+So, while node is running, I can go to that debug panel and hit the play button, and it presents me with a list of processes that I can attach to, and there is one for nodejs. If I refresh the browser I can hit a breakpoint on the server.
+  
 
 ## Available Scripts
 
