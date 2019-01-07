@@ -1,19 +1,30 @@
-'use strict';
-
 import React from "react";
+import './App.css'
 
 console.log("inside datePicker");
 class DatePicker extends React.Component {
 
     constructor() {
-		super();
-		this.state = {
-			votes: {a: 4}
-		};
+        super();
+        
+        var today = new Date();
+        this.state = {
+            date: { year: today.getFullYear(),
+                    month: DatePicker.Months[today.getMonth()],
+                    day: today.getDate(),
+                }
+        };
     }
-    
+
+    static Months = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+
     render() {
-        return ( <div>Gross Gerau {this.state.votes.a}</div> );
+        return ( <div className='date-picker'>
+                    <span>{this.state.date.month}</span>
+                    <span>{this.state.date.day}</span>
+                    <span>{this.state.date.year}</span>
+                </div> );
     } 
 }
 

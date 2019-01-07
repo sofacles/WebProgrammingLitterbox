@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import DatePicker from './datePicker'
+import DatePicker from './datePicker'
 import './App.css';
 
 class App extends Component {
@@ -34,6 +34,7 @@ class App extends Component {
   render() {
     return (  <div className="App">
                 <p>{this.state.response}</p>
+                <DatePicker />
                 <form onSubmit={this.handleSubmit}>
                   <p>
                     <strong>Post to Server:</strong>

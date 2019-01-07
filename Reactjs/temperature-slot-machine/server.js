@@ -25,13 +25,6 @@ app.get('/api/highTemps',
         )[0]
         .temperatureHigh;
 
-        var maxTheOldFashionedWay = timedTemperatureReadings[0].temperatureHigh;
-        for(var i=0; i< timedTemperatureReadings.length; i++) {
-          if(timedTemperatureReadings[i].temperatureHigh > maxTheOldFashionedWay){
-            maxTheOldFashionedWay = timedTemperatureReadings[i].temperatureHigh;
-          }
-        }
-        
         res.send(JSON.stringify({maxTemp : max }));
     });
 });
