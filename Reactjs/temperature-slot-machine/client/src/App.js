@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DatePicker from './datePicker'
+import DatePicker from './components/datePicker'
 import './App.css';
 
 class App extends Component {
@@ -15,11 +15,7 @@ class App extends Component {
     super();
     this.state = this.defaultState;
   }
-  componentDidMount() {
-    // this.callApi()
-    //   .then(res => this.setState({ response: "Max Temp is " + res.maxTemp }))
-    //   .catch(err => console.log(err));
-  }
+  
   callApi = async () => {
     const response = await fetch('/api/highTemps');
     const body = await response.json();
@@ -28,8 +24,10 @@ class App extends Component {
   };
 
   onDateChange(date) {
-    debugger;
     this.setState({ date : date});
+    // this.callApi()
+    //   .then(res => this.setState({ response: "Max Temp is " + res.maxTemp }))
+    //   .catch(err => console.log(err));
   }
 
   render() {
