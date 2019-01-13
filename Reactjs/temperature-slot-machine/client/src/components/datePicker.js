@@ -22,9 +22,9 @@ class DatePicker extends React.Component {
     }
 
     onMonthChange(evt){
-        this.setState({ month: DatePicker.Months[evt.target.value]});
+        this.setState({ month: parseInt(evt.target.value) + 1});
        
-    }
+    } 
 
     handleSubmit(evt){
         this.props.onchange(this.state);
