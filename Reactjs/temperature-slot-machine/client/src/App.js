@@ -3,7 +3,7 @@ import StockChart from './components/stockChart'
 import './App.css';
 
 class App extends Component {
-  defaultState = {
+  static defaultState = {
     response: '',
     stockSymbol: '',
     stockData: [{ price: "", date: "" }],
@@ -12,7 +12,7 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state = this.defaultState;
+    this.state = App.defaultState;
   }
 
   callApi = async (symbol) => {
@@ -41,7 +41,7 @@ class App extends Component {
         <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
         <input type="submit" value="go" />
       </form>
-      <StockChart />
+      <StockChart time-series={this.state.stockData} />
       {this.state.stockData[0].price}
     </div>
     );
