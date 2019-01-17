@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import DatePicker from './components/datePicker'
+import StockChart from './components/stockChart'
 import './App.css';
 
 class App extends Component {
   defaultState = {
     response: '',
-    date: {
-      day: 13,
-      month: "June"
-    },
+    stockSymbol: '',
+    stockData: [{ price: "", date: "" }],
+    dowJonesData: []
   };
 
   constructor() {
@@ -16,31 +15,34 @@ class App extends Component {
     this.state = this.defaultState;
   }
 
-  callApi = async (month, day) => {
-    const response = await fetch(`/api/highTemps?month=${month}&day=${day}`);
-    const body = await response.json();
+  callApi = async (symbol) => {
+    const response = await fetch(`/api/stockHistory?ticker=${symbol}`);
+    let body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    return body;
+    return body[symbol];
   };
 
-  onDateChange(date) {
-    this.setState({ date: date });
-    this.callApi(date.month, date.day)
+  fetchStock(evt) {
+    let stockSymbol = evt.target.value;
+    var result = this.callApi(this.state.stockSymbol)
       .then(res => {
-        var diagnostic = { 2018: {}, 2008: {}, 1998: {} };
-        diagnostic["2018"].readings = res["2018"].daily.data.map((obj => obj.temperatureHigh));
-        diagnostic["2008"].readings = res["2008"].daily.data.map((obj => obj.temperatureHigh));
-        diagnostic["1998"].readings = res["1998"].daily.data.map((obj => obj.temperatureHigh));
+        this.setState({ stockData: res });
+      });
+    evt.preventDefault();
+  }
 
-        this.setState({ response: JSON.stringify(diagnostic) });
-      })
-      .catch(err => console.log(err));
+  onTickerInputChange(evt) {
+    this.setState({ stockSymbol: evt.target.value });
   }
 
   render() {
     return (<div className="App">
-      <DatePicker onchange={this.onDateChange.bind(this)} />
-      {this.state.response}
+      <form onSubmit={this.fetchStock.bind(this)}>
+        <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
+        <input type="submit" value="go" />
+      </form>
+      <StockChart />
+      {this.state.stockData[0].price}
     </div>
     );
   }
