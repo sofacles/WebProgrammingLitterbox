@@ -4,9 +4,8 @@ import './App.css';
 
 class App extends Component {
   static defaultState = {
-    response: '',
     stockSymbol: '',
-    stockData: [{ price: "", date: "" }],
+    stockData: { "0": { price: "", date: "" } },
     dowJonesData: []
   };
 
@@ -41,8 +40,8 @@ class App extends Component {
         <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
         <input type="submit" value="go" />
       </form>
-      <StockChart time-series={this.state.stockData} />
-      {this.state.stockData[0].price}
+      <StockChart timeSeries={this.state.stockData} />
+
     </div>
     );
   }

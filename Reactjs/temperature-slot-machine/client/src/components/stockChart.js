@@ -1,26 +1,17 @@
 import React from "react";
-import { inherits } from "util";
 
 class StockChart extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        let ts = this.props["timeSeries"];
         let bars = [];
-        if (this.props) {
-            console.log("there are props available in the render methdod");
-            Object.keys(this.props["time-series"]).map(key => {
-                debugger;
-                if (this.props["time-series"][key].price) {
-                    return <div>this.state.timeSeries[key].price</div>;
-                }
-            });
-        } else {
-            console.log("there are no props available in the render methdod");
+        let keys = Object.keys(ts);
+        for (var key in keys) {
+            if (ts[key]) {
+                bars.push(<span>{ts[key].price}</span>);
+            }
         }
-        return (<div>
+
+        return (<div className="stock-chart">
             <h2>stock chart</h2>
             {bars}
         </div>);
