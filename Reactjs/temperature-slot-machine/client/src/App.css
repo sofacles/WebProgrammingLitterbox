@@ -2,8 +2,14 @@
   text-align: center;
 }
 
-
-.stock-chart span {
-  margin-right: 1rem;
+.stock-chart {
+  align-items: flex-end;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+}
+.stock-chart div {
+  margin-right: 4px;
+  background-color: green;
 }
 

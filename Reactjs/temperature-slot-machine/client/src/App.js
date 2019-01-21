@@ -5,7 +5,7 @@ import './App.css';
 class App extends Component {
   static defaultState = {
     stockSymbol: '',
-    stockData: { "0": { price: "", date: "" } },
+    stockData: { "history": [{ price: "", date: "" }] },
     dowJonesData: []
   };
 
@@ -22,8 +22,7 @@ class App extends Component {
   };
 
   fetchStock(evt) {
-    let stockSymbol = evt.target.value;
-    var result = this.callApi(this.state.stockSymbol)
+    this.callApi(this.state.stockSymbol)
       .then(res => {
         this.setState({ stockData: res });
       });
@@ -40,8 +39,7 @@ class App extends Component {
         <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
         <input type="submit" value="go" />
       </form>
-      <StockChart timeSeries={this.state.stockData} />
-
+      <StockChart timeSeries={this.state.stockData.history} stockSymbol={this.state.stockSymbol} />
     </div>
     );
   }

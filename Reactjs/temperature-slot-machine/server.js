@@ -48,8 +48,8 @@ const getStockHistory = (symbol) => {
         .map(key => {
           return { date: key, price: timeSeries[key]["4. close"] };
         });
-
-      resolve(Object.assign({ ticker: symbol }, retVal));
+      let poop = 8;
+      resolve(Object.assign({ ticker: symbol }, { history: retVal }));
     } catch (error) {
       console.dir(error);
       reject(error);
