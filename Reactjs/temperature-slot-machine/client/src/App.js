@@ -35,10 +35,13 @@ class App extends Component {
 
   render() {
     return (<div className="App">
-      <form onSubmit={this.fetchStock.bind(this)}>
-        <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
-        <input type="submit" value="go" />
-      </form>
+      <header>
+        <h2>stock chart {this.props.stockSymbol}</h2>
+        <form onSubmit={this.fetchStock.bind(this)}>
+          <input type="text" value={this.state.stockSymbol} onChange={this.onTickerInputChange.bind(this)} />
+          <input type="submit" value="go" />
+        </form>
+      </header>
       <StockChart timeSeries={this.state.stockData.history} stockSymbol={this.state.stockSymbol} />
     </div>
     );

@@ -22,18 +22,29 @@ class StockChart extends React.Component {
                 let style = {
                     height: `${barHeight}`
                 };
-                return (<div key={stockDay.date} style={style} > {parseFloat(stockDay.price).toFixed(2)}</ div>);
+                return (<div key={stockDay.date} style={style} title={parseFloat(stockDay.price).toFixed(2)}></ div>);
             }, this);
 
+            let svgStyle = {
+                stroke: "black",
+                strokeWidth: 2
+            };
 
-            return (<div>
-                <h2>stock chart {this.props.stockSymbol}</h2>
-                <div className="stock-chart">
-                    {bars}
+            let svgLine = (<svg class="dji-line" height="320" width="700">
+                <line x1="0" y1="0" x2="700" y2="320" style={svgStyle} />
+            </svg>);
+
+
+            return (<div className="chart-container">
+                <div className="centered">
+                    <div className="stock-chart">
+                        {bars}
+                    </div>
+                    {svgLine}
                 </div>
             </div>);
         } else {
-            return (<div>Enter stock info</div>);
+            return (<div className="chart-container"></div>);
         }
 
     }

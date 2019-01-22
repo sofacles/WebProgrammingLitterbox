@@ -1,15 +1,39 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+}
+
+.centered {
+  width: 720px;
+  height: 340px;
+  border: 1px solid blue;
+  position: relative;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+}
+
+.dji-line {
+  margin: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .stock-chart {
   align-items: flex-end;
-  height: 400px;
+  height: 320px;
   display: flex;
   flex-direction: row;
+  margin: 10px;
+  position: absolute;
 }
 .stock-chart div {
-  margin-right: 4px;
+  margin-right: 2px;
+  width: 5px;
   background-color: green;
 }
-
