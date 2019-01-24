@@ -6,7 +6,9 @@ class App extends Component {
   static defaultState = {
     stockSymbol: '',
     stockData: { "history": [{ price: "", date: "" }] },
-    dowJonesData: []
+    djiData: { "history": [{ price: "", date: "" }] },
+    dowJonesData: [],
+    dataIsReady: false
   };
 
   constructor() {
@@ -17,14 +19,19 @@ class App extends Component {
   callApi = async (symbol) => {
     const response = await fetch(`/api/stockHistory?ticker=${symbol}`);
     let body = await response.json();
+
     if (response.status !== 200) throw Error(body.message);
-    return body[symbol];
+    return Object.assign({ symbol }, body);
   };
 
   fetchStock(evt) {
     this.callApi(this.state.stockSymbol)
       .then(res => {
-        this.setState({ stockData: res });
+        this.setState({
+          dataIsReady: true,
+          stockData: res[res.symbol],
+          djiData: res["dji"]
+        });
       });
     evt.preventDefault();
   }
@@ -42,7 +49,8 @@ class App extends Component {
           <input type="submit" value="go" />
         </form>
       </header>
-      <StockChart timeSeries={this.state.stockData.history} stockSymbol={this.state.stockSymbol} />
+      <StockChart dataIsReady={this.state.dataIsReady} stockTimeSeries={this.state.stockData.history}
+        djiData={this.state.djiData.history} stockSymbol={this.state.stockSymbol} />
     </div>
     );
   }

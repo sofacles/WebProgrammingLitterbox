@@ -2,9 +2,12 @@ import React from "react";
 
 class StockChart extends React.Component {
     render() {
-        var ts = this.props["timeSeries"];
+        if (this.props.dataIsReady === false) {
+            return (<div className="chart-container"></div>);
+        }
 
-        if (ts.length > 1) {
+        if (this.props.stockSymbol.length && this.props.stockTimeSeries) {
+            var ts = this.props.stockTimeSeries;
             //slice to make a copy so you don't affect the original array
             var sortedFromCheapest = ts.slice(0)
                 .sort((left, right) => { return left.price - right.price });
@@ -30,7 +33,7 @@ class StockChart extends React.Component {
                 strokeWidth: 2
             };
 
-            let svgLine = (<svg class="dji-line" height="320" width="700">
+            let svgLine = (<svg className="dji-line" height="320" width="700">
                 <line x1="0" y1="0" x2="700" y2="320" style={svgStyle} />
             </svg>);
 
@@ -43,8 +46,7 @@ class StockChart extends React.Component {
                     {svgLine}
                 </div>
             </div>);
-        } else {
-            return (<div className="chart-container"></div>);
+
         }
 
     }
