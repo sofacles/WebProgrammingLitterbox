@@ -2,10 +2,21 @@ var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 
+let stockHistoryRouter = require("./routes/stockHistoryService");
+var app = express();
+app.use("/stockHistory", stockHistoryRouter);
+app.use(express.static('public'));
 
 // Construct a schema, using GraphQL schema language
 // An argument that ends in '!' means that it it required.  Otherwise the argument can be null, and have a default value. 
 var schema = buildSchema(`
+  type RandomDie {
+    numSides: Int!,
+    rollOnce: Int!,
+    roll(numRolls: Int!) : [Int]
+
+  }
+
   type Query {
     hello: String,
     rollThreeDice: [Int],
@@ -33,9 +44,6 @@ var root = {
     });
   }
 };
-
-var app = express();
-app.use(express.static('public'));
 
 app.post("/foo", function (req, res) {
   console.log("inside foo!");
