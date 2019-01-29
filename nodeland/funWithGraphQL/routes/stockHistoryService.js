@@ -34,6 +34,36 @@ router.get('/',
 
     });
 
+router.get("/p", (req, res) => {
+    returnsAPromise(3).then(function (repuesto) {
+        res.send("Hey, the promise was responded to and returned " + repuesto.result);
+    },
+        function (rejecion) {
+            res.send("Hey, the promise was rejected and returned " + rejecion);
+        })
+});
+
+router.get("/mapa", (req, res) => {
+    let myMap = new Map();
+    let myObj = { id: "387" };
+    myMap.set("wa", "washington");
+    myMap.set("or", "oregon");
+    myMap.set(myObj, { price: 689, name: "Revel" });
+    var retVal = myMap.get(myObj).name;
+    res.send(retVal);
+});
+
+router.get("/set", (req, res) => {
+    let mySet = new Set();
+    mySet.add("wa");
+    mySet.add("or");
+    mySet.add({ price: 689, name: "Revel" });
+    let retVal = "";
+    for (let item of mySet) {
+        retVal = typeof item == "string" ? retVal.concat(item, ", ") : retVal.concat(`name: ${item.name}`, ", ")
+    }
+    res.send(retVal);
+});
 const getStockHistory = (symbol) => {
     return new Promise(async function (resolve, reject) {
         let max, response, dailyTemperatureData;
@@ -54,5 +84,16 @@ const getStockHistory = (symbol) => {
         }
     });
 };
+
+let returnsAPromise = function (number) {
+    let thePromise = new Promise(function (resolve, reject) {
+        if (number % 2 === 0) {
+            setTimeout(resolve({ result: "this worked" }), 10);
+        } else {
+            reject(new Error("this was rejected"))
+        }
+    });
+    return thePromise;
+}
 
 module.exports = router;
