@@ -7,25 +7,32 @@ var app = express();
 app.use("/stockHistory", stockHistoryRouter);
 app.use(express.static('public'));
 
+// can you parameterize your query with convenience variables like 
+//let diceCount = 2, sideCount = 20;
+
+let myPhotos = [
+  { id: "wedding", name: "our awesome wedding" },
+  { id: "funeral", name: "our well attended funeral" },
+  { id: "graduation", name: "a field in Spanaway" }];
+
 // Construct a schema, using GraphQL schema language
 // An argument that ends in '!' means that it it required.  Otherwise the argument can be null, and have a default value. 
 var schema = buildSchema(`
-  type RandomDie {
-    numSides: Int!,
-    rollOnce: Int!,
-    roll(numRolls: Int!) : [Int]
-
+  type Photo {
+    id: ID!,
+    name: String!
   }
 
   type Query {
-    hello: String,
-    rollThreeDice: [Int],
-    rollSomeDice(numDice: Int!, numSides: Int): [Int] 
+   photos: [Photo]
   }
 `);
 
 // The root provides a resolver function for each API endpoint
 var root = {
+  photos: () => {
+    return myPhotos;
+  },
   hello: () => {
     return 'Hello world!';
   },

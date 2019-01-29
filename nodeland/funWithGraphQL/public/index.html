@@ -19,41 +19,40 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    Hello Wurst
+    <div id="test"></div>
     <script>
-        debugger;
+        function tester(data) {
+            var seed = "";
+            var myDiagnosticString = data.reduce((seed, t, idx) => {
+                return seed + `<p>id is ${t.id}, name is ${t.name}</p>`;
+            }, "");
+            document.getElementById("test").innerHTML = myDiagnosticString;
+        }
         function getTestData() {
-            fetch('/foo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                }
-            })
+            fetch('/stockHistory?ticker=f')
                 .then(r => {
                     return r.json()
                 })
                 .then(data => {
-                    console.log('data returned:', data)
+                    var history = data.f.history;
+
                 });
         }
 
         function getGraphData() {
+
             fetch('/graphql', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify({ query: "{ rollSomeDice(numDice: 7, numSides: 12) }" })
-            })
-                .then(r => {
-                    return r.json()
-                })
-                .then(data => {
-                    debugger;
-                    console.log('data returned:', data)
-                });
+                body: JSON.stringify({ query: "{ photos { id, name } }" })
+            }).then(r => {
+                return r.json()
+            }).then(response => {
+                tester(response.data.photos);
+            });
         }
         getGraphData();
 
