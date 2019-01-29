@@ -54,7 +54,22 @@
                 tester(response.data.photos);
             });
         }
-        getGraphData();
+
+        function getFilteredGraphData() {
+            fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ query: '{ photo(id: "wedding") { id, name } }' })
+            }).then(r => {
+                return r.json()
+            }).then(response => {
+                document.getElementById("test").innerHTML = response.data.photo.name;
+            });
+        }
+        getFilteredGraphData();
 
     </script>
 </body>

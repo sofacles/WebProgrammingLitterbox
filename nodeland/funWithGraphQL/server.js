@@ -24,7 +24,8 @@ var schema = buildSchema(`
   }
 
   type Query {
-   photos: [Photo]
+   photos: [Photo],
+   photo(id: ID!) : Photo
   }
 `);
 
@@ -32,6 +33,10 @@ var schema = buildSchema(`
 var root = {
   photos: () => {
     return myPhotos;
+  },
+  photo: (args) => {
+    var john = myPhotos.filter(m => m.id === args.id);
+    return john[0];
   },
   hello: () => {
     return 'Hello world!';
