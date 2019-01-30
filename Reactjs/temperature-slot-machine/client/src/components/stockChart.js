@@ -1,12 +1,28 @@
 import React from "react";
+import DowJonesLine from "./dowJonesLine"
 
 class StockChart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dowJonesSeries: []
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log("inside getDerivedStateFromProps");
+        if (nextProps.djiData !== prevState.dowJonesSeries) {
+            return { dowJonesSeries: nextProps.djiData };
+        }
+        return null;
+    }
     render() {
+        debugger;
         if (this.props.dataIsReady === false) {
             return (<div className="chart-container"></div>);
         }
 
-        if (this.props.stockSymbol.length && this.props.stockTimeSeries) {
+        if (this.props.stockTimeSeries) {
             var ts = this.props.stockTimeSeries;
             //slice to make a copy so you don't affect the original array
             var sortedFromCheapest = ts.slice(0)
@@ -28,22 +44,12 @@ class StockChart extends React.Component {
                 return (<div key={stockDay.date} style={style} title={parseFloat(stockDay.price).toFixed(2)}></ div>);
             }, this);
 
-            let svgStyle = {
-                stroke: "black",
-                strokeWidth: 2
-            };
-
-            let svgLine = (<svg className="dji-line" height="320" width="700">
-                <line x1="0" y1="0" x2="700" y2="320" style={svgStyle} />
-            </svg>);
-
-
             return (<div className="chart-container">
                 <div className="centered">
                     <div className="stock-chart">
                         {bars}
                     </div>
-                    {svgLine}
+                    <DowJonesLine data={this.state.dowJonesSeries} />
                 </div>
             </div>);
 
