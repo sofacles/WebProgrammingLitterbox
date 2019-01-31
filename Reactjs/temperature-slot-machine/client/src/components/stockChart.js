@@ -16,8 +16,13 @@ class StockChart extends React.Component {
         }
         return null;
     }
+
+    mousemove(evt) {
+        if (this.props.dataIsReady && this.props.stockTimeSeries.length) {
+            console.log(`X is ${evt.nativeEvent.offsetX}. Y is ${evt.nativeEvent.offsetY}`);
+        }
+    }
     render() {
-        debugger;
         if (this.props.dataIsReady === false) {
             return (<div className="chart-container"></div>);
         }
@@ -46,10 +51,11 @@ class StockChart extends React.Component {
 
             return (<div className="chart-container">
                 <div className="centered">
-                    <div className="stock-chart">
+                    <DowJonesLine data={this.state.dowJonesSeries} />
+                    <div className="stock-chart" onMouseMove={this.mousemove.bind(this)}>
                         {bars}
                     </div>
-                    <DowJonesLine data={this.state.dowJonesSeries} />
+
                 </div>
             </div>);
 
