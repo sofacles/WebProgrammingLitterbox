@@ -8,12 +8,22 @@ class App extends Component {
     stockData: { "history": [{ price: "", date: "" }] },
     djiData: { "history": [{ price: "", date: "" }] },
     dowJonesData: [],
-    dataIsReady: false
+    dataIsReady: false,
+    heightOfSelectedBar: 0,
+    selectedPrice: 0
   };
+
+  onNewBarHighlighted(h) {
+    this.setState({
+      heightOfSelectedBar: h.barHeight,
+      selectedPrice: h.price
+    });
+  }
 
   constructor() {
     super();
     this.state = App.defaultState;
+    this.onNewBarHighlighted = this.onNewBarHighlighted.bind(this);
   }
 
   callApi = async (symbol) => {
@@ -50,7 +60,8 @@ class App extends Component {
         </form>
       </header>
       <StockChart dataIsReady={this.state.dataIsReady} stockTimeSeries={this.state.stockData.history}
-        djiData={this.state.djiData.history} stockSymbol={this.state.stockSymbol} />
+        djiData={this.state.djiData.history} stockSymbol={this.state.stockSymbol} highlightchange={this.onNewBarHighlighted}
+        heightOfSelectedBar={this.state.heightOfSelectedBar} selectedPrice={this.state.selectedPrice} />
     </div>
     );
   }

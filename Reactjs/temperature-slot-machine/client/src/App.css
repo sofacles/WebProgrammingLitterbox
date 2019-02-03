@@ -36,3 +36,8 @@
   width: 5px;
   background-color: green;
 }
+
+.sp {
+  background-color: #bbb;
+  position: absolute;
+}
