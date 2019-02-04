@@ -9,14 +9,19 @@ class App extends Component {
     djiData: { "history": [{ price: "", date: "" }] },
     dowJonesData: [],
     dataIsReady: false,
-    heightOfSelectedBar: 0,
-    selectedPrice: 0
+    selectedDate: {
+      height: 0,
+      price: 0
+    },
+
   };
 
   onNewBarHighlighted(h) {
     this.setState({
-      heightOfSelectedBar: h.barHeight,
-      selectedPrice: h.price
+      selectedDate: {
+        height: h.barHeight,
+        price: h.price
+      }
     });
   }
 
@@ -61,7 +66,7 @@ class App extends Component {
       </header>
       <StockChart dataIsReady={this.state.dataIsReady} stockTimeSeries={this.state.stockData.history}
         djiData={this.state.djiData.history} stockSymbol={this.state.stockSymbol} highlightchange={this.onNewBarHighlighted}
-        heightOfSelectedBar={this.state.heightOfSelectedBar} selectedPrice={this.state.selectedPrice} />
+        selectedDate={this.state.selectedDate} />
     </div>
     );
   }

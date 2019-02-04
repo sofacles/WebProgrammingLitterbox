@@ -7,7 +7,8 @@ class StockChart extends React.Component {
         super(props);
         this.state = {
             dowJonesSeries: [],
-            barWidth: 7
+            barWidth: 7,
+            selectedDate: props.selectedDate
         };
         this.stockBarHeights = []
     }
@@ -77,14 +78,13 @@ class StockChart extends React.Component {
                 };
                 return (<div className="bar" key={stockDay.date} style={style} title={parseFloat(stockDay.price).toFixed(2)}></ div>);
             }, this);
-
             return (<div className="chart-container">
                 <div className="centered">
                     <DowJonesLine data={this.state.dowJonesSeries} barWidth={this.state.barWidth} />
                     <div className="stock-chart" onMouseMove={this.mousemove.bind(this)} ref="stockChart">
                         {bars}
                     </div>
-                    <StockPrice show={this.props.dataIsReady} selectedBarHeight={this.props.heightOfSelectedBar} price={this.props.selectedPrice} />
+                    <StockPrice show={this.props.dataIsReady && this.props.selectedDate.height > 0} selectedDate={this.props.selectedDate} />
                 </div>
             </div>);
 

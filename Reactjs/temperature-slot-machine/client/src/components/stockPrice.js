@@ -1,14 +1,16 @@
 import React from "react";
 
 
-function StockPrice(props) {
+function StockPrice({ show, selectedDate: { height, price } }) {
 
-    let style = {
+    let style = show ? {
         right: "-20px",
-        top: `${285 - props.selectedBarHeight}px`
-    }
+        top: `${285 - height}px`
+    } : {
+            display: "none"
+        };
 
-    return (<div style={style} className="sp">{props.price}</div>);
+    return (<div style={style} className="sp">{price}</div>);
 
 }
 
