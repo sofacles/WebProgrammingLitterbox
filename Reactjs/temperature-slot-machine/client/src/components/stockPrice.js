@@ -1,15 +1,15 @@
 import React from "react";
 
 
-class StockPrice extends React.Component {
-    render() {
-        let style = {
-            right: "-20px",
-            top: `${285 - this.props.selectedBarHeight}px`
+function StockPrice(props) {
 
-        };
-        return (<div style={style} className="sp">{this.props.price}</div>);
+    let style = {
+        right: "-20px",
+        top: `${285 - props.selectedBarHeight}px`
     }
+
+    return (<div style={style} className="sp">{props.price}</div>);
+
 }
 
 export default StockPrice;

@@ -34,11 +34,11 @@ class DowJonesLine extends React.Component {
                 let distanceFromTopForCurr = (this.highestStockPrice - curr.price) * this.conversionFactor + (graphHeight / 1.5);
                 if (idx === 0) {
                     this.previousDistanceFromTop = distanceFromTopForCurr;
-                    return <line x1="0" y1="0" x2="0" y2="0" />;
+                    return <line x1="0" y1="0" x2="0" y2="0" key={idx + "dji"} />;
                 }
 
                 let retVal = <line x1={this.previousX} y1={this.previousDistanceFromTop} x2={this.previousX + dayWidth} y2={distanceFromTopForCurr}
-                    style={svgStyle} />
+                    style={svgStyle} key={idx + "dji"} />
                 this.previousDistanceFromTop = distanceFromTopForCurr;
                 this.previousX += dayWidth;
                 return retVal;
