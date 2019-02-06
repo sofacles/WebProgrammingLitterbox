@@ -29,13 +29,13 @@
             document.getElementById("test").innerHTML = myDiagnosticString;
         }
         function getTestData() {
-            fetch('/stockHistory?ticker=f')
+            fetch('/randomRawDataService')
                 .then(r => {
                     return r.json()
                 })
                 .then(data => {
-                    var history = data.f.history;
-
+                    var myDiagnosticString = JSON.stringify(data);
+                    document.getElementById("test").innerHTML = myDiagnosticString;
                 });
         }
 
@@ -49,7 +49,7 @@
                 },
                 body: JSON.stringify({ query: "{ photos { id, name } }" })
             }).then(r => {
-                return r.json()
+                return r;
             }).then(response => {
                 tester(response.data.photos);
             });
@@ -69,7 +69,7 @@
                 document.getElementById("test").innerHTML = response.data.photo.name;
             });
         }
-        getFilteredGraphData();
+        getTestData();
 
     </script>
 </body>

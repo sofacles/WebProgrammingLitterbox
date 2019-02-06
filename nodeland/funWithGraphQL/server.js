@@ -3,8 +3,10 @@ var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 
 let stockHistoryRouter = require("./routes/stockHistoryService");
+let randomDataRouter = require("./routes/randomRawDataService");
 var app = express();
 app.use("/stockHistory", stockHistoryRouter);
+app.use("/randomRawDataService", randomDataRouter);
 app.use(express.static('public'));
 
 // can you parameterize your query with convenience variables like 

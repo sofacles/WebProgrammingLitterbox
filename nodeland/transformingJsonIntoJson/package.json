@@ -1,0 +1,12 @@
+{
+  "name": "transformingjsonintojson",
+  "version": "1.0.0",
+  "description": "A study app for learning about streams in node",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "sofacles",
+  "license": "ISC"
+}
