@@ -25,6 +25,37 @@ let fakeName = () => {
 };
 
 router.get('/',
+    async (req, res, next) => {
+        var someObjects = [];
+        for (var i = 0; i < 10; i++) {
+            var someName = fakeName();
+            var obj = {
+                name: someName,
+                price: `\$${(Math.random() * 50).toFixed(2)}`,
+                assets: [4.25, 1.73]
+            }
+            someObjects.push(obj);
+        }
+        req.transformedResponse = someObjects;
+        next();
+    }, (req, res) => {
+        var final = req.transformedResponse.map((current) => {
+            let { assets } = current;
+            let newAssets = assets.map((t, i) => { return `${t} tons of cardboard` });
+            return {
+                ...current,
+                assets: newAssets
+            }
+        });
+        res.send(final);
+    });
+
+
+
+
+
+
+router.get('/passOnToJson2JsonSvc',
     async (req, res) => {
         let transformedResponse = [];
         var someObjects = [];
