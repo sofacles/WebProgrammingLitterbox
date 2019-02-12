@@ -4,9 +4,11 @@ var { buildSchema } = require('graphql');
 
 let stockHistoryRouter = require("./routes/stockHistoryService");
 let randomDataRouter = require("./routes/randomRawDataService");
+let streamFromFile = require('./routes/streamFromFile');
 var app = express();
 app.use("/stockHistory", stockHistoryRouter);
 app.use("/randomRawDataService", randomDataRouter);
+app.use('/streamFromFile', streamFromFile);
 app.use(express.static('public'));
 
 // can you parameterize your query with convenience variables like 

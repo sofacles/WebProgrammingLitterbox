@@ -30,12 +30,16 @@
         }
         function getTestData() {
             fetch('/randomRawDataService')
+                //fetch('/streamFromFile')
                 .then(r => {
-                    return r.json()
+                    return r.json();
                 })
                 .then(data => {
                     var myDiagnosticString = JSON.stringify(data);
                     document.getElementById("test").innerHTML = myDiagnosticString;
+                })
+                .catch(err => {
+                    console.log("Error reading json. " + err);
                 });
         }
 
