@@ -6,9 +6,9 @@ let MongoDriver = require('./../mongoDriver.js');
 console.log(`Using process: ${process.pid}`);
 
 router.get('/',
-     (req, res) => {
+     async (req, res) => {
         let md = new MongoDriver();
-        var stuff = md.getAll();
+        var stuff = await md.getAll();
         res.send(stuff);
     });
 

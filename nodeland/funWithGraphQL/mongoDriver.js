@@ -1,48 +1,106 @@
 const MongoClient = require('mongodb').MongoClient;
-
+//http://mongodb.github.io/node-mongodb-native/3.1/reference/ecmascriptnext/crud/
 
 class MongoDriver {
-    getAll() {
-        // Connection URL
-        //const url = 'mongodb://localhost:27017';
+    async getAll() {
+        this.url = "mongodb://torrential:Baywatch8@ds119930.mlab.com:19930/";
 
-        //jimmySupply
-        //int3rleaved
-        const url = "mongodb://jimmySupply:Large3Mercury@ds035137.mlab.com:35137/";
+        this.dbName = 'myspaceships';
 
-        // Database Name
-        const dbName = 'namumemug3bu';
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                //await this.createNavy();
+                //await this.delete('dreadnought');
+                await this.getAllShips();
+                //await this.deleteAll();
+            }
+        });
+    }
 
-        // Create a new MongoClient
-        const client = new MongoClient(url);
+    async createNavy() {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                var collection = db.collection('myspaceships');
+                await collection.insertMany([
+                    { name: 'Colossus', crew: 690 }, 
+                    { name: 'Benbow', crew: 470 },
+                    { name: 'Audacious', crew: 420 },
+                    { name: 'Hercules', crew: 447 },
+                    { name: 'Centurion', crew: 100 },
+                    { name: 'Ajax', crew: 397 },
+                    { name: 'Dreadnought', crew: 1099}
+                ]);
+            }
+        });
+    }
+    
 
-        let allMyCrap;
+    async getAllShips() {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                var cursor = db.collection('myspaceships').find();
+                while(await cursor.hasNext()) {
+                    const doc = await cursor.next();
+                    console.log(doc);
+                }
+            }
+        });
+    }
 
-        var options = {
-            server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-            replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
-        };
+    async updateName(old, newName) {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                let col = db.collection('myspaceships');
+                // Update a single document
+                let r = await col.updateOne({name:old}, {$set: {name: newName}});
+            }
+        });
+    }
 
-        // Use connect method to connect to the Server
-        client.connect(function (err) {
-            console.log("Connected successfully to server");
+    async delete(shipName) {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                let col = db.collection('myspaceships');
+                let r = await col.findOneAndDelete({name:shipName});
+            }
+        });
+    }
 
-            const db = client.db(dbName);
-            var something = db.listCollections().toArray(function(err, collDefs) {
-                console.log(err);
-                console.log(collDefs);
-                return collDefs;
-            })
-            
-            // .then(function(r){
-            //     console.log("In the then of listCollections toArray")
-            // }).catch((err) => {
-            //     console.log("in the error handler of the listCollectionns toArray promise")
-            //     console.log(err);
-            // }); // db.find();
+    async deleteAll() {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                let col = db.collection('myspaceships');
+                let r = await col.deleteMany();
+            }
+        });
+    }
 
-            client.close();
-            return something;
+    async addCrew(shipName, crewComplement) {
+        MongoClient.connect(`${this.url}${this.dbName}`, async (err, client) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                const db = client.db('myspaceships');
+                let col = db.collection('myspaceships');
+                let r = await col.updateOne({name:shipName}, {$set: {crew: crewComplement}});
+            }
         });
     }
 }
