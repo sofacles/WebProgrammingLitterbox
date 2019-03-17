@@ -24,7 +24,7 @@ import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
-
+import * as todoController from "./controllers/todo";
 
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
@@ -103,11 +103,14 @@ app.get("/signup", userController.getSignup);
 app.post("/signup", userController.postSignup);
 app.get("/contact", contactController.getContact);
 app.post("/contact", contactController.postContact);
+// app.post("/todo", todoController.postContact);
+// OK, do I have a get route for TODO?
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get("/todo", todoController.index);
 
 /**
  * API examples routes.

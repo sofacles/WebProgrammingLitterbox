@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+  table.table.table-striped
+        tr
+          th Description
+          th Priority
+          th Is Done
+
+        each n in pple
+          tr
+            td= n.description
+            td= n.priority
+            td= n.isdone
